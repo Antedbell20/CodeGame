@@ -1,4 +1,4 @@
-// Gathering HTML elements for manipulation
+// setting variables
 var quizBody = document.getElementById("quiz");
 var resultsEl = document.getElementById("result");
 var finalScoreEl = document.getElementById("finalScore");
@@ -19,8 +19,14 @@ var buttonA = document.getElementById("a");
 var buttonB = document.getElementById("b");
 var buttonC = document.getElementById("c");
 var buttonD = document.getElementById("d");
+var finalQuestionIndex = quizQuestions.length;
+var currentQuestionIndex = 0;
+var timeLeft = 76;
+var timerInterval;
+var score = 0;
+var correct;
 
-// Quiz question object
+// sets the quiz questions and answers
 var quizQuestions = [{
     question: "Where was Felix born?",
     choiceA: "Korea",
@@ -73,15 +79,8 @@ var quizQuestions = [{
         
     
     ];
-// Other global variables
-var finalQuestionIndex = quizQuestions.length;
-var currentQuestionIndex = 0;
-var timeLeft = 76;
-var timerInterval;
-var score = 0;
-var correct;
 
-// This function cycles through the object array containing the quiz questions to generate the questions and answers.
+// generates the questions and also tells the page when to stop asking questions
 function generateQuizQuestion(){
     gameoverDiv.style.display = "none";
     if (currentQuestionIndex === finalQuestionIndex){
@@ -95,13 +94,13 @@ function generateQuizQuestion(){
     buttonD.innerHTML = currentQuestion.choiceD;
 };
 
-// Start Quiz function starts the TimeRanges, hides the start button, and displays the first quiz question.
+// starts the quiz
 function startQuiz(){
     gameoverDiv.style.display = "none";
     startQuizDiv.style.display = "none";
     generateQuizQuestion();
 
-    //Timer
+    //Timer function
     timerInterval = setInterval(function() {
         timeLeft--;
         quizTimer.textContent = "Time left: " + timeLeft;
@@ -113,7 +112,7 @@ function startQuiz(){
       }, 1000);
     quizBody.style.display = "block";
 }
-// This function is the end page screen that displays your score after either completeing the quiz or upon timer run out
+// Shows the score
 function showScore(){
     quizBody.style.display = "none"
     gameoverDiv.style.display = "flex";
@@ -122,8 +121,7 @@ function showScore(){
     finalScoreEl.innerHTML = "You got " + score + " out of " + quizQuestions.length + " correct!";
 }
 
-// On click of the submit button, we run the function highscore that saves and stringifies the array of high scores already saved in local stoage
-// as well as pushing the new user name and score into the array we are saving in local storage. Then it runs the function to show high scores.
+// listens for submit button and checks to make sure there is user input. Then shows initials and score
 submitScoreBtn.addEventListener("click", function highscore(){
     
     
@@ -151,7 +149,7 @@ submitScoreBtn.addEventListener("click", function highscore(){
     
 });
 
-// This function clears the list for the high scores and generates a new high score list from local storage
+// gets the scores but doesnt display them
 function generateHighscores(){
     highscoreDisplayName.innerHTML = "";
 
@@ -165,7 +163,7 @@ for (i=0; i<highscores.length; i++){
     highscoreDisplayScore.appendChild(newScoreSpan);
 }
 }
-// This function displays the high scores page while hiding all of the other pages from 
+// this one shows the scores
 function showHighscore(){
 startQuizDiv.style.display = "none"
 gameoverDiv.style.display = "none";
@@ -176,14 +174,14 @@ endGameBtns.style.display = "flex";
 generateHighscores();
 }
 
-// This function clears the local storage of the high scores as well as clearing the text from the high score board
+// clears the scores
 function clearHighscore(){
 window.localStorage.clear();
 highscoreDisplayName.textContent = "";
 highscoreDisplayScore.textContent = "";
 }
 
-// This function sets all the variables back to their original values and shows the home page to enable replay of the quiz
+// This function sets all the variables back to their original values 
 function playAgain(){
 
 highscoreContainer.style.display = "none";
@@ -203,12 +201,10 @@ if (answer === correct && currentQuestionIndex !== finalQuestionIndex){
    
     currentQuestionIndex++;
     generateQuizQuestion();
-    //display in the results div that the answer is correct.
 }else if (answer !== correct && currentQuestionIndex !== finalQuestionIndex){
     timeLeft = timeLeft - 10
     currentQuestionIndex++;
     generateQuizQuestion();
-    //display in the results div that the answer is wrong.
 }else{
     showScore();
 }
