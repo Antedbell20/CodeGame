@@ -1,6 +1,6 @@
 # CodeGame
 ## Deployed site
-https://antedbell20.github.io/CodeGame
+https://antedbell20.github.io/CodeGame/
 
 ## Description 
 This webpage tests the knowledge of stays (straykid fans). If an answer is answered incorrectly it will deduct 10 seconds from your remaining time. 
