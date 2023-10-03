@@ -174,7 +174,7 @@ endGameBtns.style.display = "flex";
 generateHighscores();
 }
 
-// clears the scores
+// clears the highscores
 function clearHighscore(){
 window.localStorage.clear();
 highscoreDisplayName.textContent = "";
